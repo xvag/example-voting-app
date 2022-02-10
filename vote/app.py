@@ -10,7 +10,6 @@ option_b = os.getenv('OPTION_B', "Vi")
 hostname = socket.gethostname()
 version = 'v1'
 
-
 app = Flask(__name__)
 
 def get_redis():
