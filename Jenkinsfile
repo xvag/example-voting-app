@@ -192,18 +192,16 @@ pipeline {
       }
       stage('Sonarqube'){
         agent any
-/*        when{
-            branch 'master'
-        }
-        */
-        tools{
-          jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
-        }
+        when{
+          branch 'master'
+         }
+         tools{
+           jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
+         }
 /*        environment{
           sonarpath = tool 'SonarScanner'
         }
-*/
-        steps{
+*/      steps{
           echo 'Running Sonarqube Analysis..'
           withSonarQubeEnv('sonar-instavote'){
             sh "/var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarScanner/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
