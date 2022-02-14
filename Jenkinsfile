@@ -219,7 +219,7 @@ pipeline {
           }
         }
       }
-      stage('instavote deploy to dev'){
+      stage('Instavote Deploy to Dev'){
         agent any
         when{
           branch 'master'
