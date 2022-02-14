@@ -1,7 +1,5 @@
 pipeline {
-
   agent none
-
   stages{
       stage("worker build"){
           when{
