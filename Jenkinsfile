@@ -185,12 +185,12 @@ pipeline {
           jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
         }
         environment {
-          sonarpath = tool 'SonarScanner'
+          SONARPATH = tool 'SonarScanner'
         }
         steps {
           echo 'Running Sonarqube Analysis..'
           withSonarQubeEnv('sonar-instavote') {
-            sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
+            sh "$SONARPATH/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
           }
         }
       }
@@ -216,7 +216,7 @@ pipeline {
   }
   post{
     always{
-        echo 'Building multibranch pipeline for worker is completed...'
+        echo 'Building multibranch pipeline for Instavote App is completed...'
     }
   }
 }
