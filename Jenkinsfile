@@ -190,7 +190,7 @@ pipeline {
           }
         }
       }
-      stage('Sonarqube'){
+/*      stage('Sonarqube'){
         agent any
         when{
           branch 'master'
@@ -198,10 +198,10 @@ pipeline {
          tools{
            jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
          }
-/*        environment{
-          sonarpath = tool 'SonarScanner'
-        }
-*/      steps{
+        // environment{
+        //  sonarpath = tool 'SonarScanner'
+        //}
+        steps{
           echo 'Running Sonarqube Analysis..'
           echo "JDK is ${jdk}"
           withSonarQubeEnv('sonar-instavote'){
@@ -220,7 +220,7 @@ pipeline {
             waitForQualityGate abortPipeline: true
           }
         }
-      }
+      }*/
       stage('Instavote Deploy to Dev'){
         agent any
         when{
