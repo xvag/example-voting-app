@@ -179,22 +179,26 @@ pipeline {
           }
         }
       }
-      stage('Sonarqube') {
+      stage('Sonarqube'){
         agent any
-        tools {
+/*        when{
+            branch 'master'
+        }
+        */
+        tools{
           jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
         }
-        environment {
-          SONARPATH = tool 'SonarScanner'
+        environment{
+          sonarpath = tool 'SonarScanner'
         }
-        steps {
+        steps{
           echo 'Running Sonarqube Analysis..'
-          withSonarQubeEnv('sonar-instavote') {
-            sh "$SONARPATH/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
+          withSonarQubeEnv('sonar-instavote'){
+            sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
           }
         }
       }
-      stage("Quality Gate") {
+      stage("Quality Gate"){
         steps {
           timeout(time: 1, unit: 'HOURS') {
             // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
