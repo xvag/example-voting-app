@@ -190,7 +190,7 @@ pipeline {
         }
         steps{
           script{
-            sonarpath = tool 'SonarQube Scanner 4.6.2.2472'
+            sonarpath = tool 'SonarQubeScanner'
           }
           echo 'Running Sonarqube Analysis..'
           withSonarQubeEnv('sonar-instavote'){
