@@ -188,13 +188,14 @@ pipeline {
         tools{
           jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
         }
-        environment{
+/*        environment{
           sonarpath = tool 'SonarScanner'
         }
+*/
         steps{
           echo 'Running Sonarqube Analysis..'
           withSonarQubeEnv('sonar-instavote'){
-            sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
+            sh "/var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarScanner/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
           }
         }
       }
