@@ -3,7 +3,7 @@ pipeline {
   stages{
       stage("worker build"){
           when{
-              changeset "**/worker/**"
+            changeset "**/worker/**"
           }
           agent {
             docker {
@@ -190,11 +190,8 @@ pipeline {
           }
         }
       }
-/*      stage('Sonarqube'){
+      stage('Sonarqube'){
         agent any
-        when{
-          branch 'master'
-         }
          tools{
            jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
          }
@@ -210,9 +207,6 @@ pipeline {
         }
       }
       stage("Quality Gate"){
-        when{
-          branch 'master'
-         }
         steps {
           timeout(time: 1, unit: 'HOURS') {
             // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
@@ -220,7 +214,7 @@ pipeline {
             waitForQualityGate abortPipeline: true
           }
         }
-      }*/
+      }
       stage('Instavote Deploy to Dev'){
         agent any
         when{
