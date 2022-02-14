@@ -31,7 +31,7 @@ pipeline {
             }
           }
           steps{
-              echo 'Running Unit Tets on worker app'
+              echo 'Running Unit Test on worker app'
               dir('worker'){
                 sh 'mvn clean test'
               }
@@ -101,7 +101,7 @@ pipeline {
             }
           }
           steps{
-              echo 'Running Unit Tets on result app'
+              echo 'Running Unit Test on result app'
               dir('result'){
                 sh 'npm install'
                 sh 'npm test'
@@ -154,12 +154,25 @@ pipeline {
             }
           }
           steps{
-              echo 'Running Unit Tets on vote app'
+              echo 'Running Unit Test on vote app'
               dir('vote'){
                 sh 'pip install -r requirements.txt'
                 sh 'nosetests -v'
               }
           }
+      }
+      stage("vote integration"){
+        agent any
+        when{
+          changeset "**/vote/**"
+          branch 'master'
+        }
+        steps{
+          echo 'Running Integration Test on vote app'
+          dir('vote'){
+            sh 'integration_test.sh'
+          }
+        }
       }
       stage("vote docker-package"){
         agent any
