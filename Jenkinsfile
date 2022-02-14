@@ -202,7 +202,7 @@ pipeline {
             waitForQualityGate abortPipeline: true
           }
         }
-     }
+      }
       stage('instavote deploy to dev'){
         agent any
         when{
