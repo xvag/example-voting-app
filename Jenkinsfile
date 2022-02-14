@@ -187,7 +187,7 @@ pipeline {
         }
 
         environment {
-          sonarpath = tool 'SonarScanner'
+          def sonarpath = tool 'SonarScanner'
         }
 
         steps {
