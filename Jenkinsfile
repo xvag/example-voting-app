@@ -200,7 +200,6 @@ pipeline {
         //}
         steps{
           echo 'Running Sonarqube Analysis..'
-          echo "JDK is ${jdk}"
           withSonarQubeEnv('sonar-instavote'){
             sh "/var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarScanner/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
           }
