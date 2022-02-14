@@ -191,7 +191,7 @@ pipeline {
         }
 
         steps {
-          echo $sonarpath
+          echo "value of sonarpath is $sonarpath"
           echo 'Running Sonarqube Analysis..'
           withSonarQubeEnv('sonar-instavote') {
             sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
