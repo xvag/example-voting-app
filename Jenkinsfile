@@ -168,7 +168,7 @@ pipeline {
         steps{
           echo 'Running Integration Test on vote app'
           dir('vote'){
-            sh 'integration_test.sh'
+            sh './integration_test.sh'
           }
         }
       }
