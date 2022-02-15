@@ -1,3 +1,4 @@
+//mosh
 pipeline {
   agent {
     docker {
