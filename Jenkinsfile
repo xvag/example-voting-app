@@ -192,9 +192,9 @@ pipeline {
       }
       stage("e2e"){
         agent any
-/*        when{
+        when{
           branch 'master'
-        }*/
+        }
         steps{
           echo 'End-2-End Instavote App Testing'
           sh './e2e.sh'
@@ -202,10 +202,9 @@ pipeline {
       }
       stage('Sonarqube'){
         agent any
-/*        when {
+        when {
           branch 'master'
         }
-        */
          tools{
            jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
          }
