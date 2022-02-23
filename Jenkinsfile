@@ -190,7 +190,7 @@ pipeline {
           }
         }
       }
-      stage('Sonarqube'){
+/*      stage('Sonarqube'){
         agent any
          tools{
            jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
@@ -213,7 +213,7 @@ pipeline {
             waitForQualityGate abortPipeline: true
           }
         }
-      }
+      }*/
       stage('Instavote Deploy to Dev'){
         agent any
         when{
