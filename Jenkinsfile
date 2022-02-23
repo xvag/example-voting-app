@@ -202,9 +202,9 @@ pipeline {
       }
       stage('Sonarqube'){
         agent any
-        when {
+/*        when {
           branch 'master'
-        }
+        }*/
          tools{
            jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
          }
@@ -221,9 +221,9 @@ pipeline {
       }
       stage("Quality Gate"){
         agent any
-        when {
+/*        when {
           branch 'master'
-        }
+        }*/
         steps {
           timeout(time: 1, unit: 'HOURS') {
             // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
