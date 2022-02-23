@@ -190,6 +190,16 @@ pipeline {
           }
         }
       }
+      stage("e2e"){
+        agent any
+/*        when{
+          branch 'master'
+        }*/
+        steps{
+          echo 'End-2-End Instavote App Testing'
+          sh './e2e.sh'
+        }
+      }
       stage('Sonarqube'){
         agent any
 /*        when {
