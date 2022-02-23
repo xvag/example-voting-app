@@ -53,8 +53,7 @@ services:
       - back-tier
     volumes:
       - ./db-data/:/var/lib/postgresql/data/
-#    environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
+
 
 volumes:
   db-data:
