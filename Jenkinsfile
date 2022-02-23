@@ -190,18 +190,23 @@ pipeline {
           }
         }
       }
-/*      stage('Sonarqube'){
+      stage('Sonarqube'){
         agent any
+/*        when {
+          branch 'master'
+        }
+        */
          tools{
            jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
          }
-        // environment{
-        //  sonarpath = tool 'SonarScanner'
-        //}
+        environment{
+          sonarpath = tool 'SonarScanner'
+        }
         steps{
           echo 'Running Sonarqube Analysis..'
-          withSonarQubeEnv('sonar-instavote'){
-            sh "/var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarScanner/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
+          withSonarQubeEnv('InstavoteSonarCloud'){
+            //sh "/var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarScanner/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
+            sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
           }
         }
       }
@@ -213,7 +218,7 @@ pipeline {
             waitForQualityGate abortPipeline: true
           }
         }
-      }*/
+      }
       stage('Instavote Deploy to Dev'){
         agent any
         when{
