@@ -211,6 +211,7 @@ pipeline {
         }
       }
       stage("Quality Gate"){
+        agent any
         steps {
           timeout(time: 1, unit: 'HOURS') {
             // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
