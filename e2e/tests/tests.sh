@@ -12,10 +12,10 @@ curl -sS -X POST --data "vote=a" http://vote > /dev/null
 
 current=`phantomjs render.js "http://result:4000/" | grep -i vote | cut -d ">" -f 4 | cut -d " " -f1`
 
-echo $current | grep -q -e "[0-9]\+"
-if [[ $? -ne 0 ]]; then
-  current=1
-fi
+#echo $current | grep -q -e "[0-9]\+"
+#if [[ $? -ne 0 ]]; then
+#  current=1
+#fi
 
 next=`echo "$(($current + 1))"`
 
