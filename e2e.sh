@@ -16,13 +16,13 @@ docker-compose run --rm e2e
 if [ $? -eq 0 ]
 then
   echo "---------------------------------------"
-  echo "INTEGRATION TESTS PASSED....."
+  echo "E2E TESTS PASSED....."
   echo "---------------------------------------"
   docker-compose down
   exit 0
 else
   echo "---------------------------------------"
-  echo "INTEGRATION TESTS FAILED....."
+  echo "E2E TESTS FAILED....."
   echo "---------------------------------------"
   docker-compose down
   exit 1
