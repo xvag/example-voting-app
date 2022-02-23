@@ -1,4 +1,4 @@
-//mosh
+//mock
 pipeline {
   agent {
     docker {
