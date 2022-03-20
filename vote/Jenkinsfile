@@ -36,8 +36,7 @@ pipeline {
             steps {
               container('python') {
                 dir('vote'){
-                  sh 'pip install -r requirements.txt'
-                  sh 'nosetests -v'
+                  sh 'pyraider check -f requirements.txt'
                 }
               }
             }
