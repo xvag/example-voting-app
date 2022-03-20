@@ -10,9 +10,9 @@ pipeline {
 
   stages {
     stage('Build') {
-      when {
-        changeset "**/worker/**"
-      }
+      //when {
+        //changeset "**/worker/**"
+      //}
       parallel {
         stage('Compile') {
           steps {
