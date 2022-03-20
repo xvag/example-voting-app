@@ -196,3 +196,27 @@
     :why:
     :versions:
     :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - backo2
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - cookie-signature
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - has-cors
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - packet-reader
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
