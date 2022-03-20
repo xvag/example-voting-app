@@ -48,7 +48,7 @@ pipeline {
               dir('result'){
                 //catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                 sh 'npm install dependency-check -g'
-                sh 'dependency-check ./*.js ./*.json ./views/*.js ./test/*.js'
+                sh 'dependency-check ./*.js ./views/*.js ./test/*.js'
                 //}
               }
             }
