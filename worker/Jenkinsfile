@@ -75,24 +75,6 @@ pipeline {
       }
     }
 
-    stage('SAST') {
-      when {
-        changeset "**/worker/**"
-      }
-      steps {
-        container('slscan') {
-          dir('worker'){
-            sh 'scan --type java,depscan --build'
-          }
-        }
-      }
-      post {
-        success {
-          archiveArtifacts allowEmptyArchive: true, artifacts: 'worker/reports/*', fingerprint: true, onlyIfSuccessful: true
-        }
-      }
-    }
-
     stage('Package') {
       when {
         branch 'master'
