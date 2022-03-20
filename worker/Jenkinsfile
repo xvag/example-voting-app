@@ -17,7 +17,9 @@ pipeline {
         stage('Compile') {
           steps {
             container('maven') {
-              sh 'mvn compile'
+              dir('worker'){
+                sh 'mvn compile'
+              }
             }
           }
         }
@@ -100,7 +102,7 @@ pipeline {
         stage('OCI image BnP') {
           steps {
             container('kaniko') {
-              sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/worker2'
+              sh '/kaniko/executor -f `pwd`/worker/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/worker2'
             }
           }
         }

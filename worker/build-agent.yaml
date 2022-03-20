@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    app: spring-build-ci
+    app: worker-build-ci
 spec:
-  
+
   containers:
     - name: maven
       image: maven:alpine
