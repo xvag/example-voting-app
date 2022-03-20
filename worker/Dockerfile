@@ -8,12 +8,10 @@ RUN mvn package -DskipTests
 FROM openjdk:19-alpine AS RUN
 WORKDIR /run
 COPY --from=BUILD /app/target/worker-jar-with-dependencies.jar worker.jar
-ARG USER=devops
+ARG USER=workeruser
 ENV HOME /home/$USER
 RUN adduser -D $USER && \
     chown $USER:$USER /run/worker.jar
 RUN apk add --no-cache curl
-HEALTHCHECK --interval=30s --timeout=10s --retries=2 --start-period=20s \
-  CMD curl -f http://localhost:8080/ || exit 1
 USER $USER
 CMD java -jar /run/worker.jar
