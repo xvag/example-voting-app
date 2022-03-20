@@ -1,3 +1,5 @@
+# Deploy instavote on docker-stack
+
 version: '3.7'
 
 volumes:
