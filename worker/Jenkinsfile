@@ -34,15 +34,19 @@ pipeline {
         stage('Unit Tests') {
           steps {
             container('maven') {
-              sh 'mvn test'
+              dir('worker'){
+                sh 'mvn test'
+              }
             }
           }
         }
         stage('SCA') {
           steps {
             container('maven') {
-              catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                sh 'mvn org.owasp:dependency-check-maven:check'
+              dir('worker'){
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                  sh 'mvn org.owasp:dependency-check-maven:check'
+                }
               }
             }
           }
@@ -56,13 +60,15 @@ pipeline {
         stage('OSS License Checker') {
           steps {
             container('licensefinder') {
-              sh 'ls -al'
-              sh '''#!/bin/bash --login
-                      /bin/bash --login
-                      rvm use default
-                      gem install license_finder
-                      license_finder
-                    '''
+              dir('worker'){
+                sh 'ls -al'
+                sh '''#!/bin/bash --login
+                        /bin/bash --login
+                        rvm use default
+                        gem install license_finder
+                        license_finder
+                      '''
+              }
             }
           }
         }
