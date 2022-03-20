@@ -84,15 +84,19 @@ pipeline {
         stage('Create Jarfile') {
           steps {
             container('maven') {
-              sh 'mvn package -DskipTests'
-              archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+              dir('worker'){
+                sh 'mvn package -DskipTests'
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+              }
             }
           }
         }
         stage('OCI image BnP') {
           steps {
             container('kaniko') {
-              sh '/kaniko/executor -f `pwd`/worker/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/worker2'
+              dir('worker'){
+                sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/worker2'
+              }
             }
           }
         }
@@ -115,8 +119,8 @@ pipeline {
         stage('Image Scan') {
           steps {
             container('docker-tools') {
-              sh 'trivy image --exit-code 1 xvag/dsodemo'
-              sh 'trivy image xvag/worker2'
+              sh 'trivy image --exit-code 1 xvag/worker2'
+              #sh 'trivy image xvag/worker2'
             }
           }
         }
