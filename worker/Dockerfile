@@ -1,11 +1,20 @@
-FROM maven:3.6.1-jdk-8-alpine
-
+# Stage 0 - build artifact from source
+FROM maven:3.8.4-openjdk-17 AS BUILD
 WORKDIR /app
-
 COPY . .
+RUN mvn package -DskipTests
 
-RUN mvn package -DskipTests && \
-    mv target/worker-jar-with-dependencies.jar /run/worker.jar && \
-    rm -rf *
-
+# Stage 1 - package app to run
+FROM openjdk:19-alpine AS RUN
+WORKDIR /run
+COPY --from=BUILD /app/target/worker-jar-with-dependencies.jar worker.jar
+ARG USER=devops
+ENV HOME /home/$USER
+RUN adduser -D $USER && \
+    chown $USER:$USER /run/demo.jar
+RUN apk add --no-cache curl
+HEALTHCHECK --interval=30s --timeout=10s --retries=2 --start-period=20s \
+  CMD curl -f http://localhost:8080/ || exit 1
+USER $USER
+EXPOSE 8080
 CMD java -jar /run/worker.jar
