@@ -84,8 +84,7 @@ pipeline {
         steps {
           container('slscan') {
             dir('vote'){
-              //sh 'scan --type java,depscan --build'
-              sh 'scan --build'
+              sh 'scan'
             }
           }
         }
