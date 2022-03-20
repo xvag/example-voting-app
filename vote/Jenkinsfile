@@ -1,63 +1,145 @@
 pipeline {
-  agent none
+
+  agent {
+    kubernetes {
+      yamlFile 'vote/build-agent.yaml'
+      defaultContainer 'python'
+      idleMinutes 1
+    }
+  }
 
   stages{
-      stage("build"){
-          when{
-              changeset "**/vote/**"
-          }
-          agent {
-            docker {
-              image 'python:3.7.12-slim'
-              args '--user root'
-            }
-          }
-          steps{
-              echo 'Compiling vote app'
-              dir('vote'){
-                sh 'pip install -r requirements.txt'
-              }
-          }
-      }
-      stage("test"){
-          when{
-              changeset "**/vote/**"
-          }
-          agent {
-            docker {
-              image 'python:3.7.12-slim'
-              args '--user root'
-            }
-          }
-          steps{
-              echo 'Running Unit Tets on vote app'
-              dir('vote'){
-                sh 'pip install -r requirements.txt'
-                sh 'nosetests -v'
-              }
-          }
-      }
-      stage("docker-package"){
-        agent any
-        when{
-            branch 'master'
-            changeset "**/vote/**"
+
+      stage('Build') {
+        when {
+          changeset "**/vote/**"
         }
-        steps{
-          echo 'Packaging vote app with docker'
-          script{
-            docker.withRegistry('https://index.docker.io/v1/','dockerlogin'){
-              def voteImage = docker.build("xvag/instavote-vote:v${env.BUILD_ID}","./vote")
-              voteImage.push()
-              voteImage.push("${env.BRANCH_NAME}")
-              voteImage.push("latest")
+        parallel {
+          stage('Check Requirements') {
+            steps {
+              container('python') {
+                dir('vote'){
+                  sh 'pip install -r requirements.txt'
+                }
+              }
+            }
+          }
+        }
+      }
+
+      stage('Static Analysis') {
+        when{
+          changeset "**/vote/**"
+        }
+        parallel {
+          stage('Unit Tests') {
+            steps {
+              container('python') {
+                dir('vote'){
+                  sh 'pip install -r requirements.txt'
+                  sh 'nosetests -v'
+                }
+              }
+            }
+          }
+          stage('SCA') {
+            steps {
+              container('python') {
+                dir('vote'){
+                  //catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                  sh 'pyraider go'
+                  //}
+                }
+              }
+            }
+            //post {
+              //always {
+                //archiveArtifacts allowEmptyArchive: true, artifacts: 'vote/target/dependency-check-report.html', fingerprint: true, onlyIfSuccessful: true
+                //dependencyCheckPublisher pattern: 'report.xml'
+              //}
+            //}
+          }
+          stage('OSS License Checker') {
+            steps {
+              container('licensefinder') {
+                dir('vote'){
+                  sh 'ls -al'
+                  sh '''#!/bin/bash --login
+                          /bin/bash --login
+                          rvm use default
+                          gem install license_finder
+                          license_finder
+                        '''
+                }
+              }
+            }
+          }
+        }
+      }
+
+      stage('SAST') {
+        when {
+         changeset "**/vote/**"
+        }
+        steps {
+          container('slscan') {
+            dir('vote'){
+              //sh 'scan --type java,depscan --build'
+              sh 'scan --build'
+            }
+          }
+        }
+        post {
+          success {
+            archiveArtifacts allowEmptyArchive: true, artifacts: 'vote/reports/*', fingerprint: true, onlyIfSuccessful: true
+          }
+        }
+      }
+
+      stage('Package') {
+        when {
+          branch 'master'
+          changeset "**/vote/**"
+        }
+        parallel {
+          stage('OCI image BnP') {
+            steps {
+              container('kaniko') {
+                dir('vote') {
+                  sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/vote2'
+                }
+              }
+            }
+          }
+        }
+      }
+
+      stage('Image Analysis') {
+        when {
+          branch 'master'
+          changeset "**/vote/**"
+        }
+        parallel {
+          stage('Image Linting') {
+            steps {
+              container('docker-tools') {
+                sh 'dockle docker.io/xvag/vote2'
+              }
+            }
+          }
+          stage('Image Scan') {
+            steps {
+              container('docker-tools') {
+                sh 'trivy image --exit-code 1 xvag/vote2'
+                //sh 'trivy image xvag/vote2'
+              }
             }
           }
         }
       }
   }
-  post{
-    always{
+  post {
+    always {
         echo 'Building multibranch pipeline for vote is completed...'
     }
   }
