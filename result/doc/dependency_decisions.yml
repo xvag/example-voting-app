@@ -107,7 +107,91 @@
     :versions:
     :when: 2022-03-20 17:10:53.045616000 Z
 - - :approve
-  - nose
+  - browser-stdout
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - component-bind
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - component-inherit
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - fs.realpath
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - glob
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - indexof
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - inflight
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - inherits
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - minimatch
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - once
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - pg-int8
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - pgpass
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - semver
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - setprototypeof
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - wrappy
   - :who:
     :why:
     :versions:
