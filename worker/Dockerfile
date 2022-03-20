@@ -12,6 +12,6 @@ ARG USER=workeruser
 ENV HOME /home/$USER
 RUN adduser -D $USER && \
     chown $USER:$USER /run/worker.jar
-RUN apk add --no-cache curl
+HEALTHCHECK NONE
 USER $USER
 CMD java -jar /run/worker.jar
