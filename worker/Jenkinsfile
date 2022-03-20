@@ -95,7 +95,7 @@ pipeline {
           steps {
             container('kaniko') {
               dir('worker'){
-                sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/worker2-`date | base64`'
+                sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/worker2'
               }
             }
           }
