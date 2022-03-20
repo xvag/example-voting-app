@@ -78,23 +78,7 @@ pipeline {
       }
     }
 
-    stage('SAST') {
-      when {
-       changeset "**/result/**"
-      }
-      steps {
-        container('slscan') {
-          dir('result'){
-            //sh 'scan --build'
-          }
-        }
-      }
-      post {
-        success {
-        //  archiveArtifacts allowEmptyArchive: true, artifacts: 'vote/reports/*', fingerprint: true, onlyIfSuccessful: true
-        }
-      }
-    }
+
 
     stage('Package') {
       when {
