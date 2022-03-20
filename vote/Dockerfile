@@ -2,7 +2,6 @@ FROM python:alpine3.14
 WORKDIR /app
 COPY . .
 RUN pip install -r requirements.txt
-EXPOSE 80
 ARG USER=voteuser
 ENV HOME /home/$USER
 RUN adduser -D $USER && \
