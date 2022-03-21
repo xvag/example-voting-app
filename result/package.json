@@ -15,10 +15,10 @@
     "method-override": "^2.3.5",
     "async": "^1.5.0",
     "pg": "^4.4.3",
-    "socket.io": "^2.4.0"
+    "socket.io": "^4.4.1"
   },
   "devDependencies": {
     "chai": "^4.0.2",
-    "mocha": "^3.4.2"
+    "mocha": "^9.2.2"
   }
 }
