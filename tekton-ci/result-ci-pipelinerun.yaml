@@ -1,0 +1,32 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: result-ci-
+spec:
+  pipelineRef:
+    name: instavote-ci
+  workspaces:
+  - name: shared-data
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+  - name: dockerconfig
+    secret:
+      secretName: dockerhub-creds
+  params:
+  - name: repoUrl
+    value: https://github.com/xvag/instavote-gitops.git
+  - name: revision
+    value: main
+  - name: sparseCheckoutDirectories
+    value: /result/
+  - name: imageUrl
+    value: xvag/result
+  - name: pathToContext
+    value: result
+
