@@ -27,22 +27,26 @@ pipeline {
       }
     }
 
-    stage('Static Analysis') {
-      when{
+    stage('Unit Tests') {
+      when {
+        changeset "**/result/**"
+      }
+      steps {
+        container('nodejs') {
+          dir('result'){
+            sh 'npm install'
+            sh 'npm test'
+          }
+        }
+      }
+    }
+
+    stage('SCA') {
+      when {
         changeset "**/result/**"
       }
       parallel {
-        stage('Unit Tests') {
-          steps {
-            container('nodejs') {
-              dir('result'){
-                sh 'npm install'
-                sh 'npm test'
-              }
-            }
-          }
-        }
-        stage('SCA') {
+        stage('Dependency Check') {
           steps {
             container('nodejs') {
               dir('result'){
@@ -60,7 +64,7 @@ pipeline {
             //}
           //}
         }
-        stage('OSS License Checker') {
+        stage('OSS License Check') {
           steps {
             container('licensefinder') {
               dir('result'){
@@ -72,6 +76,40 @@ pipeline {
                         license_finder
                       '''
               }
+            }
+          }
+        }
+      }
+    }
+
+    stage('SAST') {
+      when {
+        changeset "**/result/**"
+      }
+      parallel {
+        stage('Sonarqube'){
+          agent any
+           //tools{
+             //jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
+           //}
+          environment{
+            sonarpath = tool 'SonarScanner'
+          }
+          steps{
+            echo 'Running Sonarqube Analysis..'
+            withSonarQubeEnv('InstavoteSonarCloud'){
+              //sh "/var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarScanner/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
+              sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
+            }
+          }
+        }
+        stage("Quality Gate"){
+          agent any
+          steps {
+            timeout(time: 1, unit: 'HOURS') {
+              // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+              // true = set pipeline to UNSTABLE, false = don't
+              waitForQualityGate abortPipeline: true
             }
           }
         }
