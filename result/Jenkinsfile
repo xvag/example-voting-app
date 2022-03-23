@@ -107,14 +107,14 @@ pipeline {
         stage('Image Linting') {
           steps {
             container('docker-tools') {
-              sh 'dockle docker.io/xvag/result2'
+              sh "dockle docker.io/xvag/result2:v${env.BUILD_ID}"
             }
           }
         }
         stage('Image Scan') {
           steps {
             container('docker-tools') {
-              sh 'trivy image --exit-code 1 xvag/result2'
+              sh "trivy image --exit-code 1 xvag/result2:v${env.BUILD_ID}"
               //sh 'trivy image xvag/vote2'
             }
           }
