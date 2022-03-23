@@ -36,7 +36,7 @@ spec:
       tty: true
     - name: kaniko
       image: gcr.io/kaniko-project/executor:v1.6.0-debug
-      imagePullPolicy: Always
+      #imagePullPolicy: Always
       command:
         - sleep
       args:
@@ -46,13 +46,19 @@ spec:
           mountPath: /kaniko/.docker
     - name: slscan
       image: shiftleft/sast-scan
-      imagePullPolicy: Always
+      #imagePullPolicy: Always
       command:
         - cat
       tty: true
     - name: python
       image: xvag/pyraider
-      imagePullPolicy: Always
+      #imagePullPolicy: Always
+      command:
+        - cat
+      tty: true
+    - name: sonarscanner
+      image: sonarsource/sonar-scanner-cli
+      #imagePullPolicy: Always
       command:
         - cat
       tty: true
