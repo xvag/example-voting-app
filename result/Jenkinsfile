@@ -91,7 +91,7 @@ pipeline {
         changeset "**/result/**"
       }
       environment {
-        SONAR_TOKEN = credentials('sonar-instavote')
+        SONAR_TOKEN = credentials('sonar-instavote-result')
       }
       parallel {
         stage('SonarScanner') {
