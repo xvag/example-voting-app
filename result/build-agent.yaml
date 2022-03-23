@@ -62,7 +62,7 @@ spec:
       command:
         - cat
       tty: true
-    - name: sonnarscanner
+    - name: sonarscanner
       image: sonarsource/sonar-scanner-cli
       #imagePullPolicy: Always
       command:
