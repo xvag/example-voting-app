@@ -91,7 +91,11 @@ pipeline {
           steps {
             container('sonarscanner') {
               dir('result') {
-                sh "sonar-scanner --help"                
+                sh "sonar-scanner \
+                    -Dsonar.organization=xvag-sonar \
+                    -Dsonar.projectKey=instavote \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=https://sonarcloud.io"
               }
             }
           }
