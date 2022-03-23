@@ -94,8 +94,7 @@ pipeline {
           steps {
             container('sonarscanner') {
               dir('result') {
-                sh "SONAR_TOKER=$SONAR_TOKEN"
-                sh "sonar-scanner -Dsonar.host.url=https://sonarcloud.io"
+                sh "sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://sonarcloud.io"
               }
             }
           }
