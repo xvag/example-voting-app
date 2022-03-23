@@ -37,8 +37,7 @@ spec:
         - name: jenkins-docker-cfg
           mountPath: /kaniko/.docker
     - name: nodejs
-      #image: node:17.7.2-alpine
-      image: node:8.16.0-alpine
+      image: node:17.7.2-alpine
       #imagePullPolicy: Always
       command:
         - cat
