@@ -78,8 +78,6 @@ pipeline {
       }
     }
 
-
-
     stage('Package') {
       when {
         branch 'master'

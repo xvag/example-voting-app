@@ -105,7 +105,7 @@ pipeline {
             steps {
               container('kaniko') {
                 dir('vote') {
-                  sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/vote2'
+                  sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/vote2:v${env.BUILD_ID}"
                 }
               }
             }
@@ -122,14 +122,14 @@ pipeline {
           stage('Image Linting') {
             steps {
               container('docker-tools') {
-                sh 'dockle docker.io/xvag/vote2'
+                sh "dockle docker.io/xvag/vote2:v${env.BUILD_ID}"
               }
             }
           }
           stage('Image Scan') {
             steps {
               container('docker-tools') {
-                sh 'trivy image --exit-code 1 xvag/vote2'
+                sh "trivy image --exit-code 1 xvag/vote2:v${env.BUILD_ID}"
                 //sh 'trivy image xvag/vote2'
               }
             }
