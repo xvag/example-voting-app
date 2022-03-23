@@ -1,7 +1,8 @@
 FROM python:alpine3.14
 WORKDIR /app
-COPY . .
+COPY requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt
+COPY . /app
 #ARG USER=voteuser
 #ENV HOME /home/$USER
 #RUN adduser -D $USER && \
