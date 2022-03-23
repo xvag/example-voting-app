@@ -10,12 +10,12 @@ pipeline {
 
   stages{
 
-      stage('Build') {
+      stage('Unit Tests') {
         when {
           changeset "**/vote/**"
         }
         parallel {
-          stage('Check Requirements') {
+          stage('pip check') {
             steps {
               container('python') {
                 dir('vote'){
@@ -27,12 +27,12 @@ pipeline {
         }
       }
 
-      stage('Static Analysis') {
+      stage('SCA') {
         when{
           changeset "**/vote/**"
         }
         parallel {
-          stage('Unit Tests') {
+          stage('pyraider') {
             steps {
               container('python') {
                 dir('vote'){
@@ -40,23 +40,6 @@ pipeline {
                 }
               }
             }
-          }
-          stage('SCA') {
-            steps {
-              container('python') {
-                dir('vote'){
-                  //catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                  sh 'pyraider go'
-                  //}
-                }
-              }
-            }
-            //post {
-              //always {
-                //archiveArtifacts allowEmptyArchive: true, artifacts: 'vote/target/dependency-check-report.html', fingerprint: true, onlyIfSuccessful: true
-                //dependencyCheckPublisher pattern: 'report.xml'
-              //}
-            //}
           }
           stage('OSS License Checker') {
             steps {
@@ -132,7 +115,25 @@ pipeline {
             steps {
               container('docker-tools') {
                 sh "trivy image --exit-code 1 xvag/vote2:v${env.BUILD_ID}"
-                //sh 'trivy image xvag/vote2'
+                //sh "trivy image xvag/vote2:v${env.BUILD_ID}"
+              }
+            }
+          }
+        }
+      }
+
+      stage('Package :latest') {
+        when {
+          branch 'master'
+          changeset "**/vote/**"
+        }
+        parallel {
+          stage('BnP :latest') {
+            steps {
+              container('kaniko') {
+                dir('vote') {
+                  sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/vote2:latest"
+                }
               }
             }
           }

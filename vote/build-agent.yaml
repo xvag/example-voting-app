@@ -6,14 +6,6 @@ metadata:
 spec:
 
   containers:
-    - name: maven
-      image: maven:alpine
-      command:
-        - cat
-      tty: true
-      volumeMounts:
-        - name: m2
-          mountPath: /root/.m2/
     - name: docker-tools
       image: rmkanda/docker-tools:latest
       command:
@@ -44,12 +36,6 @@ spec:
       volumeMounts:
         - name: jenkins-docker-cfg
           mountPath: /kaniko/.docker
-    - name: slscan
-      image: shiftleft/sast-scan
-      #imagePullPolicy: Always
-      command:
-        - cat
-      tty: true
     - name: python
       image: xvag/pyraider
       #imagePullPolicy: Always
@@ -64,9 +50,6 @@ spec:
       tty: true
 
   volumes:
-    - name: m2
-      hostPath:
-        path: /tmp/.m2/
     - name: docker-sock
       hostPath:
         path: /var/run

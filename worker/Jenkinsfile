@@ -14,10 +14,10 @@ pipeline {
         changeset "**/worker/**"
       }
       parallel {
-        stage('Compile') {
+        stage('mvn compile') {
           steps {
             container('maven') {
-              dir('worker'){
+              dir('worker') {
                 sh 'mvn compile'
               }
             }
@@ -26,21 +26,29 @@ pipeline {
       }
     }
 
-    stage('Static Analysis') {
+    stage('Unit Tests') {
       when {
         changeset "**/worker/**"
       }
       parallel {
-        stage('Unit Tests') {
+        stage('mvn test') {
           steps {
             container('maven') {
-              dir('worker'){
+              dir('worker') {
                 sh 'mvn test'
               }
             }
           }
         }
-        stage('SCA') {
+      }
+    }
+
+    stage('SCA') {
+      when {
+        changeset "**/worker/**"
+      }
+      parallel {
+        stage('Dependency Check') {
           steps {
             container('maven') {
               dir('worker'){
@@ -60,7 +68,7 @@ pipeline {
         stage('OSS License Checker') {
           steps {
             container('licensefinder') {
-              dir('worker'){
+              dir('worker') {
                 sh 'ls -al'
                 sh '''#!/bin/bash --login
                         /bin/bash --login
@@ -104,7 +112,7 @@ pipeline {
         stage('Create Jarfile') {
           steps {
             container('maven') {
-              dir('worker'){
+              dir('worker') {
                 sh 'mvn package -DskipTests'
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
               }
@@ -114,7 +122,7 @@ pipeline {
         stage('OCI image BnP') {
           steps {
             container('kaniko') {
-              dir('worker'){
+              dir('worker') {
                 sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/worker2:v${env.BUILD_ID}"
               }
             }
@@ -140,7 +148,25 @@ pipeline {
           steps {
             container('docker-tools') {
               sh "trivy image --exit-code 1 xvag/worker2:v${env.BUILD_ID}"
-              //sh 'trivy image xvag/worker2'
+              //sh "trivy image xvag/worker2:v${env.BUILD_ID}"
+            }
+          }
+        }
+      }
+    }
+
+    stage('Package :latest') {
+      when {
+        branch 'master'
+        changeset "**/worker/**"
+      }
+      parallel {
+        stage('BnP :latest') {
+          steps {
+            container('kaniko') {
+              dir('worker') {
+                sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/worker2:latest"
+              }
             }
           }
         }
