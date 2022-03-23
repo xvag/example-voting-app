@@ -1,5 +1,4 @@
-#FROM node:17.7.2-alpine
-FROM node:5.11.0-slim
+FROM node:17.8-slim
 WORKDIR /app
 COPY . .
 RUN npm install  && \
