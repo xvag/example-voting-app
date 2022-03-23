@@ -90,7 +90,7 @@ pipeline {
           steps {
             container('kaniko') {
               dir('result') {
-                sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/result2:v${env.BUILD_ID}'
+                sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/result2:v${env.BUILD_ID}"
               }
             }
           }
