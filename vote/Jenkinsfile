@@ -79,18 +79,21 @@ pipeline {
 
       stage('SAST') {
         when {
-         changeset "**/vote/**"
+          changeset "**/vote/**"
         }
-        steps {
-          container('slscan') {
-            dir('vote'){
-              sh 'scan'
+        environment {
+          SONAR_TOKEN = credentials('sonar-instavote')
+        }
+        parallel {
+          stage('SonarScanner') {
+            steps {
+              container('sonarscanner') {
+                dir('vote') {
+                  sh "SONAR_TOKER=$SONAR_TOKEN"
+                  sh "sonar-scanner -Dsonar.host.url=https://sonarcloud.io"
+                }
+              }
             }
-          }
-        }
-        post {
-          success {
-            archiveArtifacts allowEmptyArchive: true, artifacts: 'vote/reports/*', fingerprint: true, onlyIfSuccessful: true
           }
         }
       }
