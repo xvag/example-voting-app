@@ -86,11 +86,15 @@ pipeline {
       when {
         changeset "**/result/**"
       }
+      environment {
+        SONAR_TOKEN = credentials('sonar-instavote')
+      }
       parallel {
         stage('SonarScanner') {
           steps {
             container('sonarscanner') {
               dir('result') {
+                sh "SONAR_TOKER=$SONAR_TOKEN"
                 sh "sonar-scanner \
                     -Dsonar.organization=xvag-sonar \
                     -Dsonar.projectKey=instavote \
