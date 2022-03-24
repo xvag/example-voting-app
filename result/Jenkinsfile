@@ -10,9 +10,9 @@ pipeline {
 
   stages{
 
-  /*  stage('Build') {
+    stage('Build') {
       when {
-        changeset "**//*result/**"
+        changeset "**/result/**"
       }
       parallel {
         stage('npm install') {
@@ -29,7 +29,7 @@ pipeline {
 
     stage('Unit Tests') {
       when {
-        changeset "**//*result/**"
+        changeset "**/result/**"
       }
       parallel {
         stage('npm test') {
@@ -47,7 +47,7 @@ pipeline {
 
     stage('SCA') {
       when {
-        changeset "**//*result/**"
+        changeset "**/result/**"
       }
       parallel {
         stage('Dependency Check') {
@@ -88,7 +88,7 @@ pipeline {
 
     stage('SAST') {
       when {
-        changeset "**//*result/**"
+        changeset "**/result/**"
       }
       environment {
         SONAR_TOKEN = credentials('sonar-instavote-result')
@@ -104,7 +104,7 @@ pipeline {
           }
         }
       }
-    }*/
+    }
 
     stage('Package') {
       when {
@@ -140,8 +140,8 @@ pipeline {
         stage('Image Scan') {
           steps {
             container('docker-tools') {
-              sh "trivy image --exit-code 1 xvag/result2:v${env.BUILD_ID}"
-              //sh "trivy image xvag/vote2:v${env.BUILD_ID}"
+              //sh "trivy image --exit-code 1 xvag/result2:v${env.BUILD_ID}"
+              sh "trivy image xvag/vote2:v${env.BUILD_ID}"
             }
           }
         }
