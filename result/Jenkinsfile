@@ -12,7 +12,7 @@ pipeline {
 
   /*  stage('Build') {
       when {
-        changeset "**/result/**"
+        changeset "**//*result/**"
       }
       parallel {
         stage('npm install') {
@@ -29,7 +29,7 @@ pipeline {
 
     stage('Unit Tests') {
       when {
-        changeset "**/result/**"
+        changeset "**//*result/**"
       }
       parallel {
         stage('npm test') {
@@ -47,7 +47,7 @@ pipeline {
 
     stage('SCA') {
       when {
-        changeset "**/result/**"
+        changeset "**//*result/**"
       }
       parallel {
         stage('Dependency Check') {
@@ -88,7 +88,7 @@ pipeline {
 
     stage('SAST') {
       when {
-        changeset "**/result/**"
+        changeset "**//*result/**"
       }
       environment {
         SONAR_TOKEN = credentials('sonar-instavote-result')
