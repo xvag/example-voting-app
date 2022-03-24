@@ -10,6 +10,6 @@ RUN adduser -D $USER && \
 RUN apk add --no-cache curl
 HEALTHCHECK --interval=30s --timeout=10s --retries=2 --start-period=20s \
   CMD curl -f http://localhost:80/ || exit 1
-USER $USER
+#USER $USER
 EXPOSE 80
 CMD ["gunicorn", "app:app", "-b", "0.0.0.0:80", "--log-file", "-", "--access-logfile", "-", "--workers", "4", "--keep-alive", "0"]
