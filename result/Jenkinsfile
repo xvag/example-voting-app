@@ -140,26 +140,8 @@ pipeline {
         stage('Image Scan') {
           steps {
             container('docker-tools') {
-              //sh "trivy image --exit-code 1 xvag/result2:v${env.BUILD_ID}"
-              sh "trivy image xvag/result2:v${env.BUILD_ID}"
-            }
-          }
-        }
-      }
-    }
-
-    stage('Package :latest') {
-      when {
-        branch 'master'
-        changeset "**/result/**"
-      }
-      parallel {
-        stage('BnP :latest') {
-          steps {
-            container('kaniko') {
-              dir('result') {
-                sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/result2:latest"
-              }
+              sh "trivy image --exit-code 1 xvag/result2:v${env.BUILD_ID}"
+              //sh "trivy image xvag/result2:v${env.BUILD_ID}"
             }
           }
         }

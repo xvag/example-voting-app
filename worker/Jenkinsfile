@@ -156,24 +156,6 @@ pipeline {
       }
     }
 
-    stage('Package :latest') {
-      when {
-        branch 'master'
-        changeset "**/worker/**"
-      }
-      parallel {
-        stage('BnP :latest') {
-          steps {
-            container('kaniko') {
-              dir('worker') {
-                sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/xvag/worker2:latest"
-              }
-            }
-          }
-        }
-      }
-    }
-
   }
   post{
     always{
