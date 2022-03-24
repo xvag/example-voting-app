@@ -15,7 +15,7 @@
     "method-override": "^2.3.5",
     "async": "^1.5.0",
     "pg": "^4.4.3",
-    "socket.io": "^2.3.0"
+    "socket.io": "^1.7.4"
   },
   "devDependencies": {
     "chai": "^4.0.2",
