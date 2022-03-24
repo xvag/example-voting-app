@@ -220,3 +220,39 @@
     :why:
     :versions:
     :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - better-assert
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - blob
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - callsite
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - component-emitter
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - debug
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
+- - :approve
+  - object-component
+  - :who:
+    :why:
+    :versions:
+    :when: 2022-03-20 23:10:53.045616000 Z
