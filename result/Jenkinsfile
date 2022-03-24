@@ -141,7 +141,7 @@ pipeline {
           steps {
             container('docker-tools') {
               //sh "trivy image --exit-code 1 xvag/result2:v${env.BUILD_ID}"
-              sh "trivy image xvag/vote2:v${env.BUILD_ID}"
+              sh "trivy image xvag/result2:v${env.BUILD_ID}"
             }
           }
         }
