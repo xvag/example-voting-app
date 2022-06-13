@@ -41,7 +41,7 @@ pipeline {
               }
             }
           }
-          stage('OSS License Checker') {
+  /*        stage('OSS License Checker') {
             steps {
               container('licensefinder') {
                 dir('vote'){
@@ -58,7 +58,7 @@ pipeline {
             }
           }
         }
-      }
+      }*/
 
       stage('SAST') {
         when {

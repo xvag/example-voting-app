@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    app: worker-build-ci
+    app: vote-build-ci
 spec:
 
   containers:
@@ -21,11 +21,11 @@ spec:
       command:
         - cat
       tty: true
-    - name: licensefinder
-      image: licensefinder/license_finder
-      command:
-        - cat
-      tty: true
+  #  - name: licensefinder
+  #    image: licensefinder/license_finder
+  #    command:
+  #      - cat
+  #    tty: true
     - name: kaniko
       image: gcr.io/kaniko-project/executor:v1.6.0-debug
       #imagePullPolicy: Always
