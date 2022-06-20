@@ -25,7 +25,7 @@ kubectl create secret -n jenkins docker-registry regcred \
 --docker-email=<dockerhub-email>
 ```
 
-02. Create variables for SonarCloud tokens:
+02. Create variables for SonarCloud tokens:  
 Add the following variables as secret text, in `Manage Jenkins > Manage Credentials > Global`:
 - sonar-instavote-vote   = SonarCloud Token for Vote app
 - sonar-instavote-worker = SonarCloud Token for Worker app
