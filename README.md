@@ -1,4 +1,4 @@
-Instavote - Example Voting Ap
+Instavote - Example Voting App
 =========
 
 Architecture
@@ -13,7 +13,4 @@ Architecture
 * A Node.js webapp which shows the results of the voting in real time
 
 
-Note
-----
-
-The voting application only accepts one vote per client. It does not register votes if a vote has already been submitted from a client...
+- Note: The voting application only accepts one vote per client. It does not register votes if a vote has already been submitted from a client.
