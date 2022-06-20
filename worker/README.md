@@ -1,3 +1,3 @@
 ## Worker Java App
 
-![Worker App CI Pipeline](worker-ci-pipeline.png)
+![Worker App CI Pipeline](worker-ci.png)
