@@ -17,6 +17,10 @@ Architecture
 
 Continuous Integration Pipelines
 -----
+Instructions below are for deploying the CI Pipelines from the Jenkinsfiles which reside inside each app's folder.  
+For more details about each Pipeline see the corresponding folder ([vote](https://github.com/xvag/instavote-ci/tree/master/vote), [worker](https://github.com/xvag/instavote-ci/tree/master/worker), [result](https://github.com/xvag/instavote-ci/tree/master/result)).  
+The Pipelines run on Jenkins using kubernetes build agents.  
+
 01. Create a secret (regcred) to allow Jenkins push images to Dockerhub:  
 ```
 kubectl create secret -n jenkins docker-registry regcred \
